@@ -10,39 +10,10 @@ public class Program {
     public static void main(String[] args) {
 
         Guess guess = new Guess(new AnswerGenerator());
-
-        boolean done = false;
+        Game game = new Game(guess);
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        while (!done) {
-
-            String line = "";
-
-            try {
-
-                line = reader.readLine();
-
-            } catch (IOException exc) {
-
-            }
-
-            if (line.length() != 4) {
-
-                System.out.println("Invalid input, try again.");
-
-            } else {
-
-                String result = guess.compare(line);
-
-                System.out.println(result);
-
-                if (result.equals("4A0B")) {
-                    done = true;
-                }
-
-            }
-
-        }
+        game.run(reader, System.out);
     }
 }
