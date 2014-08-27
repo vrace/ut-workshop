@@ -5,11 +5,15 @@ import java.util.Random;
  */
 public class AnswerGenerator {
 
+    private Random rand;
+
+    public AnswerGenerator() {
+        rand = new Random();
+    }
+
     public String makeAnswer() {
 
         int[] arr = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-
-        Random rand = new Random();
 
         for (int i = 0; i < 10; i++) {
 
@@ -18,7 +22,6 @@ public class AnswerGenerator {
             int t = arr[pos];
             arr[pos] = arr[i];
             arr[i] = t;
-
         }
 
         return String.format("%d%d%d%d", arr[0], arr[1], arr[2], arr[3]);
