@@ -3,6 +3,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 
 import static org.hamcrest.core.Is.is;
@@ -158,4 +160,55 @@ public class GameTest {
         assertThat(gameover, is(true));
     }
 
+    @Test
+    public void should_show_welcome_at_beginning_and_success() {
+
+        // given
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream console = new PrintStream(bytes);
+        BufferedReader reader = mock(BufferedReader.class);
+
+        try {
+            when(reader.readLine()).thenReturn("1234");
+        } catch (IOException exc) {
+
+        }
+
+        Game game = new Game(guess);
+
+        // when
+        game.run(reader, console);
+
+        // then
+        assertThat(bytes.toString(), is("Welcome!\n\nPlease input your number (6):\nCongratulations!\n"));
+    }
+
+    @Test
+    public void should_show_bad_guess_and_game_over_when_input_bad_numbers() {
+        // given
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream console = new PrintStream(bytes);
+        BufferedReader reader = mock(BufferedReader.class);
+
+        try {
+            when(reader.readLine()).thenReturn("4321");
+        } catch (IOException exc) {
+
+        }
+
+        Game game = new Game(guess);
+
+        String expected = "Welcome!\n\n";
+        for (int i = 6; i > 0; i--) {
+            expected += String.format("Please input your number (%d):\n", i);
+            expected += "0A4B\n";
+        }
+        expected += "Game Over\n";
+
+        // when
+        game.run(reader, console);
+
+        // then
+        assertThat(bytes.toString(), is(expected));
+    }
 }
