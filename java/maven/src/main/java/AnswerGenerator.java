@@ -7,8 +7,8 @@ public class AnswerGenerator {
 
     private Random rand;
 
-    public AnswerGenerator() {
-        rand = new Random();
+    public AnswerGenerator(Random rand) {
+        this.rand = rand;
     }
 
     public String makeAnswer() {

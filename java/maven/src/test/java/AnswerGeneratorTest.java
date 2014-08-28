@@ -3,6 +3,7 @@ import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Random;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
@@ -18,7 +19,7 @@ public class AnswerGeneratorTest {
     @Before
     public void setUp() {
 
-        generator = new AnswerGenerator();
+        generator = new AnswerGenerator(new Random());
 
     }
 
@@ -35,7 +36,7 @@ public class AnswerGeneratorTest {
         }
 
         // that
-        assertEquals(check.size(), 4);
+        assertThat(check.size(), is(4));
     }
 
     @Test

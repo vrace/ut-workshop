@@ -20,7 +20,7 @@ public class GuessTest {
     public void setUp() {
         answerGenerator = mock(AnswerGenerator.class);
         when(answerGenerator.makeAnswer()).thenReturn("1234");
-        guess = new Guess(answerGenerator);
+        guess = new Guess(answerGenerator, new CompareNumber());
     }
 
     @Test
