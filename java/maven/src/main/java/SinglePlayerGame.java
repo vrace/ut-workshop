@@ -9,14 +9,14 @@ import java.io.PrintStream;
 public class SinglePlayerGame implements GameInterface {
 
     private Guess guess;
-    private int chance;
+    private Player player;
     private String result;
     private BufferedReader input;
     private PrintStream output;
 
-    public SinglePlayerGame(Guess guess) {
+    public SinglePlayerGame(Guess guess, Player player) {
         this.guess = guess;
-        chance = 6;
+        this.player = player;
         result = "";
 
         input = new BufferedReader(new InputStreamReader(System.in));
@@ -34,8 +34,9 @@ public class SinglePlayerGame implements GameInterface {
 
     @Override
     public void step() {
-        if (chance > 0 && shouldContinue()) {
-            output.println(String.format("Please input your number (%d):", chance));
+        if (player.hasMoreChance() && shouldContinue()) {
+
+            output.println(player.askInput());
 
             String line = "";
             try {
@@ -45,16 +46,21 @@ public class SinglePlayerGame implements GameInterface {
 
             if (guess.validateInput(line)) {
 
-                chance--;
-
                 String value = guess.compare(line);
+
                 if (value.equals(Guess.TotalMatch)) {
+
                     result = "Congratulations!";
+
                 } else {
+
                     output.println(value);
-                    if (chance <= 0) {
+
+                    player.removeChance();
+                    if (!player.hasMoreChance()) {
                         result = "Game Over";
                     }
+
                 }
 
             } else {

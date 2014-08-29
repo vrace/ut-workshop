@@ -26,7 +26,7 @@ public class GameFactory {
     }
 
     private GameInterface createSinglePlayerGame() {
-        return new SinglePlayerGame(createGuess());
+        return new SinglePlayerGame(createGuess(), new Player());
     }
 
     private GameInterface createMultiPlayerGame() {

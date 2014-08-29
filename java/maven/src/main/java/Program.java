@@ -10,13 +10,9 @@ public class Program {
 
     public static void main(String[] args) {
 
-        GameFactory factory = new GameFactory();
-        GameInterface game = factory.createGame(GameType.SinglePlayerGame);
-
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        Game game = new Game(reader, System.out);
+        game.run();
 
-        game.init(reader, System.out);
-        for (; game.shouldContinue(); game.step());
-        System.out.println(game.resultText());
     }
 }
