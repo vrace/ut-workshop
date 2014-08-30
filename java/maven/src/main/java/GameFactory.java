@@ -30,7 +30,8 @@ public class GameFactory {
     }
 
     private GameInterface createMultiPlayerGame() {
-        // TODO: implement this
-        return null;
+        MultiPlayer playerA = new MultiPlayer("UserA");
+        MultiPlayer playerB = new MultiPlayer("UserB");
+        return new MultiPlayerGame(createGuess(), playerA, playerB);
     }
 }

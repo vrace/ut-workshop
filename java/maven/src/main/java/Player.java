@@ -5,7 +5,7 @@ public class Player {
 
     public static final int InitialChance = 6;
 
-    private int chance;
+    protected int chance;
 
     public Player() {
         chance = InitialChance;

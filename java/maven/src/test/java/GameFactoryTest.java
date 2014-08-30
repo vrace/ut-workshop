@@ -43,4 +43,18 @@ public class GameFactoryTest {
         // then
         assertThat(isSingleMode, is(true));
     }
+
+    @Test
+    public void should_return_multi_player_game_when_fight_mode_supplied() {
+
+        // given
+        GameType type = GameType.MultiPlayerGame;
+
+        // when
+        GameInterface game = factory.createGame(type);
+        boolean isMultiMode = game instanceof MultiPlayerGame;
+
+        // then
+        assertThat(isMultiMode, is(true));
+    }
 }
