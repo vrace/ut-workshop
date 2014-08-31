@@ -11,14 +11,8 @@ public class SinglePlayerGame implements GameInterface {
     private Guess guess;
     private Player player;
     private String result;
-    private BufferedReader input;
-    private PrintStream output;
-
-    protected enum StepPlayerResult {
-        StepResultContinue,
-        StepResultCongrats,
-        StepResultGameOver,
-    }
+    protected BufferedReader input;
+    protected PrintStream output;
 
     public SinglePlayerGame(Guess guess, Player player) {
         this.guess = guess;
@@ -68,22 +62,24 @@ public class SinglePlayerGame implements GameInterface {
         output.println(player.askInput());
 
         final String line = readGuess();
-        final String value = guess.compare(line);
+        GuessResult guessResult = guess.compare(line);
 
-        StepPlayerResult result = StepPlayerResult.StepResultContinue;
+        final String value = guessResult.toString();
+
+        StepPlayerResult stepPlayerResult = null;
         if (value.equals(Guess.TotalMatch)) {
-            result = StepPlayerResult.StepResultCongrats;
+            stepPlayerResult = new StepPlayerResult(StepPlayerResult.ResultKey.Congrats);
         } else {
             output.println(value);
             player.removeChance();
             if (!player.hasMoreChance()) {
-                result = StepPlayerResult.StepResultGameOver;
+                stepPlayerResult = new StepPlayerResult(StepPlayerResult.ResultKey.GameOver);
+            } else {
+                stepPlayerResult = new StepPlayerResult(StepPlayerResult.ResultKey.Continue, guessResult.getNewHit());
             }
         }
 
-        output.println();
-
-        return result;
+        return stepPlayerResult;
     }
 
     @Override
@@ -92,19 +88,21 @@ public class SinglePlayerGame implements GameInterface {
 
             StepPlayerResult res = stepPlayer(player);
 
-            switch (res) {
+            switch (res.getKey()) {
 
-                case StepResultCongrats:
+                case Congrats:
                     result = "Congratulations!";
                     break;
 
-                case StepResultGameOver:
+                case GameOver:
                     result = "Game Over";
                     break;
 
                 default:
                     break;
             }
+
+            output.println();
         }
     }
 

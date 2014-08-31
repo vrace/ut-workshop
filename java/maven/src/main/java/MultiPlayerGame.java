@@ -12,8 +12,6 @@ import java.io.PrintStream;
 public class MultiPlayerGame extends SinglePlayerGame {
 
     private Guess guess;
-    private BufferedReader input;
-    private PrintStream output;
     private MultiPlayer[] players;
     private MultiPlayer winner;
     private boolean strongWin;
@@ -47,6 +45,10 @@ public class MultiPlayerGame extends SinglePlayerGame {
 
     }
 
+    private MultiPlayer nextPlayer(int current) {
+        return players[(current + 1) % players.length];
+    }
+
     @Override
     public void step() {
 
@@ -55,22 +57,37 @@ public class MultiPlayerGame extends SinglePlayerGame {
             MultiPlayer current = players[i];
             StepPlayerResult res = stepPlayer(current);
 
-            switch (res) {
+            switch (res.getKey()) {
 
-                case StepResultCongrats:
+                case Congrats:
                     winner = current;
                     setResultText(winner.makeWinText(true));
                     break;
 
-                case StepResultGameOver:
-                    winner = players[(i + 1) % players.length];
+                case GameOver:
+                    winner = nextPlayer(i);
                     setResultText(winner.makeWinText(false));
                     break;
+
+                case Continue: {
+                    MultiPlayer next = nextPlayer(i);
+                    if (res.getValue() > 0) {
+                        next.removeChance(res.getValue());
+                        output.println(String.format("%d chance removed from %s.", res.getValue(), next.getName()));
+                    }
+                    if (!next.hasMoreChance()) {
+                        winner = current;
+                        setResultText(winner.makeWinText(false));
+                    }
+                    break;
+                }
 
                 default:
                     break;
 
             }
+
+            output.println();
 
         }
 

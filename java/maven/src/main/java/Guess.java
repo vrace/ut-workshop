@@ -7,14 +7,31 @@ public class Guess {
 
     private CompareNumber compareNumber;
     private String answer;
+    private boolean[] correctHistory;
 
     public Guess(AnswerGenerator answerGenerator, CompareNumber compareNumber) {
         this.compareNumber = compareNumber;
         answer = answerGenerator.makeAnswer();
+
+        correctHistory = new boolean[CompareNumberResult.ResultFieldNum];
+        for (int i = 0; i < CompareNumberResult.ResultFieldNum; i++) {
+            correctHistory[i] = false;
+        }
     }
 
-    public String compare(final String guess) {
-        return compareNumber.compare(answer, guess).toString();
+    public GuessResult compare(final String guess) {
+
+        int newHit = 0;
+        CompareNumberResult compareResult = compareNumber.compare(answer, guess);
+
+        for (int i = 0; i < CompareNumberResult.ResultFieldNum; i++) {
+            if (!correctHistory[i] && compareResult.result[i] == CompareNumberResult.ResultType.Match) {
+                correctHistory[i] = true;
+                newHit++;
+            }
+        }
+
+        return new GuessResult(compareResult, newHit);
     }
 
     public boolean validateInput(final String guess) {

@@ -12,6 +12,10 @@ public class MultiPlayer extends Player {
 
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public String askInput() {
         return String.format("Please input a number (%d), %s:", chance, name);
@@ -26,4 +30,9 @@ public class MultiPlayer extends Player {
         return String.format("Congratulations, %s.", name);
     }
 
+    public void removeChance(int removeCount) {
+        for (int i = 0; i < removeCount; i++) {
+            removeChance();
+        }
+    }
 }
