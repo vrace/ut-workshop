@@ -14,7 +14,7 @@ public class Guess {
     }
 
     public String compare(final String guess) {
-        return compareNumber.compare(answer, guess);
+        return compareNumber.compare(answer, guess).toString();
     }
 
     public boolean validateInput(final String guess) {

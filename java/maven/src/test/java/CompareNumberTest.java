@@ -25,7 +25,7 @@ public class CompareNumberTest {
         final String guess = "1234";
 
         // when
-        final String evalResult = compareNumber.compare(answer, guess);
+        final String evalResult = compareNumber.compare(answer, guess).toString();
 
         // then
         assertEquals(evalResult, "4A0B");
@@ -39,7 +39,7 @@ public class CompareNumberTest {
         final String guess = "5678";
 
         // when
-        final String evalResult = compareNumber.compare(answer, guess);
+        final String evalResult = compareNumber.compare(answer, guess).toString();
 
         // then
         assertEquals(evalResult, "0A0B");
@@ -53,7 +53,7 @@ public class CompareNumberTest {
         final String guess = "4321";
 
         // when
-        final String evalResult = compareNumber.compare(answer, guess);
+        final String evalResult = compareNumber.compare(answer, guess).toString();
 
         // then
         assertEquals(evalResult, "0A4B");
@@ -67,7 +67,7 @@ public class CompareNumberTest {
         final String guess = "2537";
 
         // when
-        final String evalResult = compareNumber.compare(answer, guess);
+        final String evalResult = compareNumber.compare(answer, guess).toString();
 
         // then
         assertEquals(evalResult, "1A1B");

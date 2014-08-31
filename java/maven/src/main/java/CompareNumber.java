@@ -19,27 +19,26 @@ public class CompareNumber {
         return false;
     }
 
-    public String compare(final String answer, final String guess) {
+    public CompareNumberResult compare(final String answer, final String guess) {
 
-        int match = 0;
-        int wrongPosition = 0;
+        CompareNumberResult result = new CompareNumberResult();
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < CompareNumberResult.ResultFieldNum; i++) {
 
             int index = answer.indexOf(guess.charAt(i));
 
             if (index == i) {
 
-                match++;
+                result.result[i] = CompareNumberResult.ResultType.Match;
 
             } else if (index >= 0) {
 
-                wrongPosition++;
+                result.result[i] = CompareNumberResult.ResultType.BadPosition;
 
             }
 
         }
 
-        return String.format("%dA%dB", match, wrongPosition);
+        return result;
     }
 }
