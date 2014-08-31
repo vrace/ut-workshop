@@ -64,4 +64,52 @@ public class SinglePlayerGameTest {
         order.verify(out).println("Please input a number (6):");
         assertThat(game.resultText()).isEqualTo("Congratulations!");
     }
+
+    @Test
+    public void should_show_guess_result_when_fail() throws Exception {
+
+        // given
+        BufferedReader in = mock(BufferedReader.class);
+        when(in.readLine()).thenReturn("5678");
+
+        PrintStream out = mock(PrintStream.class);
+
+        InOrder order = inOrder(out);
+
+        // when
+        game.init(in, out);
+        game.step();
+
+        // that
+        order.verify(out).println("Welcome!");
+        order.verify(out).println("Please input a number (6):");
+        order.verify(out).println("0A0B");
+    }
+
+    @Test
+    public void should_show_game_over_when_fail_all_chances() throws Exception {
+
+        // given
+        BufferedReader in = mock(BufferedReader.class);
+        when(in.readLine()).thenReturn("5678");
+
+        PrintStream out = mock(PrintStream.class);
+
+        InOrder order = inOrder(out);
+
+        // when
+        game.init(in, out);
+        while (game.shouldContinue()) {
+            game.step();
+        }
+
+        // that
+        order.verify(out).println("Welcome!");
+        for (int i = 6; i > 0; i--) {
+            order.verify(out).println(String.format("Please input a number (%d):", i));
+            order.verify(out).println("0A0B");
+        }
+
+        assertThat(game.resultText()).isEqualTo("Game Over");
+    }
 }
