@@ -34,7 +34,7 @@ public class SinglePlayerGame implements GameInterface {
         input = in;
         output = out;
 
-        out.println("Welcome");
+        out.println("Welcome!");
         out.println();
     }
 
