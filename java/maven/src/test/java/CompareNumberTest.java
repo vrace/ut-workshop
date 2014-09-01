@@ -1,6 +1,7 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -71,5 +72,24 @@ public class CompareNumberTest {
 
         // then
         assertEquals(evalResult, "1A1B");
+    }
+
+    @Test
+    public void should_have_correct_field_marked() {
+
+        // given
+        final String answer = "1234";
+        final String guess = "1024";
+
+        // when
+        CompareNumberResult result = compareNumber.compare(answer, guess);
+
+        // then
+        assertThat(result.result[0]).isEqualTo(CompareNumberResult.ResultType.Match);
+        assertThat(result.result[1]).isEqualTo(CompareNumberResult.ResultType.NotMatch);
+        assertThat(result.result[2]).isEqualTo(CompareNumberResult.ResultType.BadPosition);
+        assertThat(result.result[3]).isEqualTo(CompareNumberResult.ResultType.Match);
+
+        assertThat(result.toString()).isEqualTo("2A1B");
     }
 }
