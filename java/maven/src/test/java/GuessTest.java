@@ -2,6 +2,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -65,5 +66,28 @@ public class GuessTest {
 
         // then
         assertEquals(result, "1A1B");
+    }
+
+    @Test
+    public void should_return_correct_hit_count_on_first_correct_guess() {
+
+        // given
+        final GuessResult result = guess.compare("7253");
+
+        // then
+        assertThat(result.getNewHit()).isEqualTo(1);
+        assertThat(result.toString()).isEqualTo("1A1B");
+    }
+
+    @Test
+    public void should_return_zero_hit_count_on_second_correct_guess() {
+
+        // given
+        guess.compare("7253");
+        final GuessResult result = guess.compare("7253");
+
+        // then
+        assertThat(result.getNewHit()).isEqualTo(0);
+        assertThat(result.toString()).isEqualTo("1A1B");
     }
 }
